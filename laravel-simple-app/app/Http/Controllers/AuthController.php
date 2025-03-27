@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;            // Para recibir datos de la petición
 use App\Models\User;                    // Para interactuar con la tabla "users"
 use Illuminate\Support\Facades\Hash;    // Para verificar contraseñas
+use Illuminate\Support\Facades\Response;
+
 
 class AuthController extends Controller
 {
@@ -16,27 +18,25 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // Validar los datos enviados por el usuario
         $data = $request->validate([
-            'name' => 'required|string|max:255',                        // Nombre obligatorio, texto, máximo 255 caracteres
-            'email' => 'required|string|email|max:255|unique:users',    // Email obligatorio, único en "users"
-            'password' => 'required|string|min:8',                      // Contraseña obligatoria, mínimo 8 caracteres
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string', // Quitamos min:8 temporalmente
         ]);
 
-        // Crear el usuario en la base de datos
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'], // Laravel lo encripta automáticamente por "casts"
+            'password' => Hash::make($data['password']),
         ]);
 
-        // Devolver una respuesta en JSON
         return response()->json([
             'message' => 'Usuario registrado con éxito',
             'user' => $user
         ]);
     }
 
+    /** ------ lOGIN ------ */
     /**
      * Inicia sesión para un usuario existente.
      *

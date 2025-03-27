@@ -1,6 +1,14 @@
-import { bootstrapApplication } from '@angular/platform-browser'; // Función para inicializar la aplicación
+// src/main.ts
+import { provideHttpClient } from '@angular/common/http'; // Para HttpClient
+import { bootstrapApplication } from '@angular/platform-browser'; // Para bootstrapApplication
+import { provideRouter } from '@angular/router'; // Para provideRouter
 import { AppComponent } from './app/app.component'; // Componente principal
-import { appConfig } from './app/app.config'; // Configuración de la aplicación
+import { routes } from './app/app.routes'; // Rutas
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+// Iniciar la aplicación
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),    // Necesario para RouterOutlet
+    provideHttpClient(),      // Necesario para AuthService
+  ],
+}).catch((err) => console.error(err)); // Capturar errores
