@@ -1,5 +1,7 @@
+// src/app/register/register.component.ts
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router'; // Importa Router
 import { AuthError, AuthResponse, AuthService } from '../auth.service';
 
 @Component({
@@ -15,16 +17,14 @@ export class RegisterComponent {
   password: string = '';
   message: string = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit() {
-    console.log('Nombre enviado:', this.name);
-    console.log('Email enviado:', this.email);
-    console.log('Password enviado:', this.password);
     this.authService.register(this.name, this.email, this.password).subscribe({
       next: (response: AuthResponse) => {
         this.message = response.message;
-        this.authService.redirectToDashboard(); // Usamos el método público
+        // Redirigir al login después del registro exitoso
+        this.router.navigate(['/login']);
       },
       error: (error: { error: AuthError }) => {
         this.message = error.error?.message || 'Error al registrar usuario';

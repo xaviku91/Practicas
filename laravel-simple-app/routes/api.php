@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +18,14 @@ use App\Http\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Rutas de usuarios
-// api.php
+// Ruta protegida para obtener el usuario autenticado
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-// Rutas de autenticación
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-
-// Rutas de usuarios
-Route::get('/users', [UserController::class, 'index']);             // Ver todos los usuarios
-Route::get('/users/{id}', [UserController::class, 'show']);             // Ver un usuario específico
-Route::delete('/users/{id}', [UserController::class, 'destroy']);       // Eliminar un usuario
+// Rutas de usuarios protegidas
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [UserController::class, 'index']);        // Ver todos los usuarios
+    Route::get('/users/{id}', [UserController::class, 'show']);    // Ver un usuario específico
+    Route::delete('/users/{id}', [UserController::class, 'destroy']); // Eliminar un usuario
+});

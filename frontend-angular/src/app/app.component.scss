@@ -2,5 +2,60 @@
 
 // navbar
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
+
+.navbar-nav {
+.nav-item {
+    .nav-link {
+        position: relative;
+        padding-bottom: 8px;
+        color: #333; // Color por defecto en modo claro
+
+        html:not(.dark) & { // Aplica solo en modo claro
+            color: #333;
+        }
+
+        html.dark & { // Añade esta regla para modo oscuro
+            color: #ffffff; // Blanco en modo oscuro
+        }
+
+        &.active {
+            color: #007bff;
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: #007bff;
+            }
+        }
+
+        &:hover {
+            color: #0056b3;
+        }
+    }
+}
+}
+
+.navbar-brand {
+transition: all 0.3s ease;
+
+&:hover {
+  filter: brightness(1.2);
+}
+img {
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+&:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(20, 125, 238, 0.5);
+  border-radius: 50%;
+}
+}
+

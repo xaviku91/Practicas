@@ -187,7 +187,7 @@ html .nav-item {
 /* ========================================================================= */
 html .nav-link {
     color: var(--gray-900);
-    /* text-gray-900 */
+
 
     &:hover {
         background-color: var(--gray-100);
@@ -205,46 +205,44 @@ html .nav-link {
 
     &.active {
         background-color: var(--blue-700);
-        /* bg-blue-700 */
         color: #ffffff;
-        /* text-white */
         border-radius: 0.25rem;
-        /* rounded-sm */
 
         @media (min-width: 768px) {
             background-color: transparent;
             color: var(--blue-700);
-            /* md:text-blue-700 */
         }
     }
 }
 
-html.dark .nav-link {
-    color: #ffffff;
+html.dark .nav-link{
+  color: #ffffff;
 
-    /* dark:text-white */
-    &:hover {
-        background-color: var(--gray-700);
-        /* dark:hover:bg-gray-700 */
-        color: #ffffff;
-        /* dark:hover:text-white */
-    }
+  &:hover {
+      background-color: var(--gray-700);
+      color: #ffffff;
+  }
 
-    @media (min-width: 768px) {
-        &:hover {
-            background-color: transparent;
-            color: var(--blue-500);
-            /* md:dark:hover:text-blue-500 */
-        }
-    }
+  &.active {
+      background-color: var(--blue-700);
+      color: #ffffff;
+  }
 
-    &.active {
-        @media (min-width: 768px) {
-            color: var(--blue-500);
-            /* md:dark:text-blue-500 */
-        }
-    }
+  @media (min-width: 768px) {
+      background-color: transparent;
+
+      &:hover {
+          background-color: transparent;
+          color: var(--blue-500); /* Azul al pasar el mouse en pantallas grandes */
+      }
+
+      &.active {
+          background-color: transparent;
+          color: var(--blue-500);
+      }
+  }
 }
+
 
 /* ========================================================================= */
 /* ESTILOS DE LOS BOTONES DE AUTENTICACIÓN (LOGIN/LOGOUT) */
@@ -298,4 +296,8 @@ html.dark .btn-outline-secondary.btn-sm.rounded-circle {
         border-color: var(--gray-400);
         color: var(--gray-400);
     }
+}
+
+html.dark .nav-link {
+  color: #ffffff !important;
 }

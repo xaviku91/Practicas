@@ -1,14 +1,14 @@
 // src/app/auth.service.ts
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Asegúrate de importar HttpHeaders
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 // Interfaz para tipar las respuestas de la API
 export interface AuthResponse {
   message: string;
-  token?: string; // Opcional, solo viene en login
-  user?: any; // Agregamos user para el registro
+  token?: string;
+  user?: any;
 }
 
 // Interfaz para tipar los errores de la API
@@ -16,29 +16,48 @@ export interface AuthError {
   message: string;
 }
 
+// Interfaz para el usuario
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; // URL de tu API Laravel
+  private apiUrl = 'http://localhost:8000/api';
+  private userSubject = new BehaviorSubject<User | null>(null);
+  public user$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  // Verificar si el usuario está autenticado
   isAuthenticated(): boolean {
     return localStorage.getItem('token') !== null;
   }
 
-  // Hacer login enviando email y contraseña a la API
-  login(email: string, password: string): Observable<AuthResponse> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }, { headers });
-  }
+// src/app/auth.service.ts (extracto relevante)
+login(email: string, password: string): Observable<AuthResponse> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  });
+  return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }, { headers }).pipe(
+    tap((response) => {
+      if (response.token) {
+        this.saveToken(response.token);
+        this.getUser().subscribe({
+          next: (user) => this.setUser(user),
+          error: (err) => console.error('Error al obtener usuario tras login:', err)
+        });
+      }
+    })
+  );
+}
 
-  // Hacer registro enviando name, email y password a la API
   register(name: string, email: string, password: string): Observable<AuthResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -51,19 +70,30 @@ export class AuthService {
     );
   }
 
-  // Guardar el token en localStorage
+  getUser(): Observable<User> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+    });
+    return this.http.get<User>(`${this.apiUrl}/user`, { headers });
+  }
+
+  setUser(user: User) {
+    this.userSubject.next(user);
+  }
+
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // Redirigir al dashboard
   redirectToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
 
-  // Cerrar sesión
   logout(): void {
     localStorage.removeItem('token');
+    this.userSubject.next(null);
     this.router.navigate(['/']);
   }
 }

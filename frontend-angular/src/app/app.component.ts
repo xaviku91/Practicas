@@ -1,7 +1,8 @@
+// src/app/app.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService, User } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,15 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  isDarkMode = false; // Variable para rastrear el estado del modo oscuro
+  isDarkMode = false;
+  user: User | null = null;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    // Verificar el estado inicial del modo oscuro
+    this.authService.user$.subscribe((user) => {
+      this.user = user;
+    });
     this.isDarkMode = document.documentElement.classList.contains('dark');
   }
 
@@ -30,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode; // Alternar el estado
+    this.isDarkMode = !this.isDarkMode;
     document.documentElement.classList.toggle('dark');
   }
 }
