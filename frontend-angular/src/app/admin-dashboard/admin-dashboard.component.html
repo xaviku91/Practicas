@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <h2 *ngIf="user">Panel de Administración, {{ user.name }}</h2>
+    <div *ngIf="!user" class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p>Esta es una página exclusiva para administradores.</p>
+
+    <h3>Lista de Usuarios</h3>
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let u of users">
+            {{ u.name }} ({{ u.email }}) - Rol: {{ u.role || 'No definido' }}
+            <div>
+                <button class="btn btn-info btn-sm me-2" (click)="viewUser(u)">Ver</button>
+                <button class="btn btn-warning btn-sm me-2" (click)="editUser(u.id)">Editar</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteUser(u.id)" [disabled]="u.id === user?.id">
+                    Eliminar
+                </button>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Modal -->
+    <div class="modal fade show d-block" tabindex="-1" *ngIf="showModal" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" [ngClass]="{'bg-success': modalSuccess, 'bg-danger': !modalSuccess}">
+                    <h5 class="modal-title text-white">{{ modalSuccess ? 'Éxito' : 'Error' }}</h5>
+                    <button type="button" class="btn-close" (click)="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ modalMessage }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

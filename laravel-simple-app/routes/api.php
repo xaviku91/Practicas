@@ -28,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);        // Ver todos los usuarios
     Route::get('/users/{id}', [UserController::class, 'show']);    // Ver un usuario específico
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // Eliminar un usuario
+    Route::put('/users/{id}', [UserController::class, 'update']); // Actualizar un usuario
+    Route::post('/users/{id}/role', [UserController::class, 'updateRole']); // Actualizar rol de un usuario
+    Route::post('/logout', [AuthController::class, 'logout']); // Cerrar sesión
 });

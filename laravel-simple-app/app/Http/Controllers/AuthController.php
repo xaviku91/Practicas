@@ -21,13 +21,14 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string', // Quitamos min:8 temporalmente
+            'password' => 'required|string',
         ]);
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => 'user', // Asigna un rol por defecto
         ]);
 
         return response()->json([
@@ -45,29 +46,25 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Validar los datos enviados por el usuario
         $data = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
-        // Buscar el usuario en la base de datos por el email
         $user = User::where('email', $data['email'])->first();
 
-        // Verificar si el usuario existe y la contraseña es correcta
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response()->json([
                 'message' => 'Credenciales inválidas'
             ], 401);
         }
 
-        // Generar un token con Sanctum
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Devolver una respuesta en JSON con el token de acceso
         return response()->json([
             'message' => 'Login exitoso',
-            'token' => $token
+            'token' => $token,
+            'user' => $user // Incluye el usuario completo, con el role
         ]);
     }
 }

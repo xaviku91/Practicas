@@ -1,36 +1,34 @@
-// src/app/app.component.ts
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+// app.component.ts
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService, User } from './auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterLink, RouterLinkActive],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, AsyncPipe, NgIf],
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
-  isDarkMode = false;
-  user: User | null = null;
+export class AppComponent {
+  isDarkMode: boolean;
+  user$: Observable<User | null>;
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      this.user = user;
-    });
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.isDarkMode = document.documentElement.classList.contains('dark');
+    this.user$ = this.authService.user$; // Observable del usuario
   }
 
-  isAuthenticated(): boolean {
+  get isAuthenticated() {
     return this.authService.isAuthenticated();
   }
 
-  logout(): void {
+  logout() {
     this.authService.logout();
-    this.router.navigate(['/']);
   }
 
   toggleDarkMode() {

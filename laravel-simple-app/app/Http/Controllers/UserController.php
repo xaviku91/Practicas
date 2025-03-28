@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Obtener todos los usuarios
-        $users = User::all(['id', 'name', 'email', 'password', 'created_at', 'updated_at']); // Seleccionamos los campos que queremos devolver
+        // Obtener todos los usuarios con los campos deseados, incluyendo 'role'
+        $users = User::all(['id', 'name', 'email', 'role', 'created_at', 'updated_at']);
 
         return response()->json($users); // Devolver los usuarios en formato JSON
     }
@@ -65,5 +65,33 @@ class UserController extends Controller
             // Si no se encuentra el usuario, devolver un mensaje de error 404
             return response()->json(['message' => 'Usuario no encontrado.'], 404);
         }
+    }
+
+
+    /** ------ UPDATE ------ */
+    /**
+     * Actualiza un usuario existente.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+
+        $data = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $id,
+            'role' => 'sometimes|string|in:user,admin', // Solo permite 'user' o 'admin'
+        ]);
+
+        $user->update($data);
+
+        return response()->json(['message' => 'Usuario actualizado correctamente.', 'user' => $user]);
     }
 }
