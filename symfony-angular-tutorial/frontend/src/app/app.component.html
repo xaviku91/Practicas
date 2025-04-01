@@ -1,0 +1,48 @@
+<h1>Lista de Productos</h1>
+
+<!-- Mensaje de confirmación -->
+<div *ngIf="message" style="color: green; margin-bottom: 10px;">
+  {{ message }}
+</div>
+
+<!-- Formulario para crear -->
+<div>
+  <h2>Añadir Producto</h2>
+  <form (ngSubmit)="addProduct()">
+    <label>
+      Nombre:
+      <input type="text" [(ngModel)]="newProduct.name" name="name" required>
+    </label>
+    <label>
+      Precio:
+      <input type="number" [(ngModel)]="newProduct.price" name="price" required step="0.01">
+    </label>
+    <button type="submit">Añadir</button>
+  </form>
+</div>
+
+<!-- Formulario de edición -->
+<div *ngIf="editProduct">
+  <h2>Editar Producto</h2>
+  <form (ngSubmit)="saveEdit()">
+    <label>
+      Nombre:
+      <input type="text" [(ngModel)]="editProduct.name" name="editName" required>
+    </label>
+    <label>
+      Precio:
+      <input type="number" [(ngModel)]="editProduct.price" name="editPrice" required step="0.01">
+    </label>
+    <button type="submit">Guardar</button>
+    <button type="button" (click)="editProduct = null">Cancelar</button>
+  </form>
+</div>
+
+<!-- Lista de productos -->
+<ul>
+  <li *ngFor="let product of products">
+    {{ product.name }} - {{ product.price }}
+    <button (click)="deleteProduct(product.id)">Eliminar</button>
+    <button (click)="startEdit(product)">Editar</button>
+  </li>
+</ul>
