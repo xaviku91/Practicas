@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+    </head>
+    <body>
+        {# Menú dinámico #}
+        <nav>
+            <ul>
+                <li><a href="{{ path('app_home') }}">Home</a></li>
+                {% if app.user %}
+                    <li><a href="{{ path('app_tareas') }}">Tareas</a></li> {# Asegúrate de definir esta ruta #}
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_register') }}">Registrarse</a></li>
+                    <li><a href="{{ path('app_login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        {% block body %}{% endblock %}
+    </body>
+</html>

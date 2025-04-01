@@ -1,0 +1,35 @@
+security:
+    # Configuración de hash para contraseñas
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User: 'auto' # Específicamente para tu entidad User
+
+    # Proveedor de usuarios (usa la entidad User con el campo email)
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    # Configuración de los firewalls
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: app_login    # Ruta para mostrar el formulario de login
+                check_path: app_login    # Ruta donde se envía el formulario para autenticar
+                enable_csrf: true        # Protección CSRF para el formulario
+            logout:
+                path: app_logout         # Ruta para cerrar sesión
+                target: app_home         # Redirige a la página de inicio tras logout
+
+    # Control de acceso
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }    # Solo admins acceden a /admin
+        - { path: ^/my-space, roles: ROLE_USER }  # Solo usuarios logeados acceden a /my-space
+        - { path: ^/login, roles: PUBLIC_ACCESS } # Permitir acceso público a /login
+        - { path: ^/, roles: PUBLIC_ACCESS }      # Permitir acceso público a la raíz (home)
