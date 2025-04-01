@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class ProductListComponent implements OnInit {
   editProduct: any = null;
   message: string = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -52,6 +56,11 @@ export class ProductListComponent implements OnInit {
       },
       error: (err) => console.error('Error al editar:', err)
     });
+  }
+
+  addToCart(product: any): void {
+    this.cartService.addToCart(product);
+    this.showMessage(`"${product.name}" añadido al carrito`);
   }
 
   showMessage(msg: string): void {
