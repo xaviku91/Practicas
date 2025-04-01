@@ -10,18 +10,20 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  // Encabezados para POST
   private getPostHeaders(): HttpHeaders {
     return new HttpHeaders({ 'Content-Type': 'application/ld+json' });
   }
 
-  // Encabezados para PATCH
   private getPatchHeaders(): HttpHeaders {
     return new HttpHeaders({ 'Content-Type': 'application/merge-patch+json' });
   }
 
   getProducts(): Observable<any> {
     return this.http.get(this.apiUrl);
+  }
+
+  getProductById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
   }
 
   addProduct(product: any): Observable<any> {

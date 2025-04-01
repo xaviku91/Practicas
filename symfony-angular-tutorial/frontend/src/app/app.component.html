@@ -1,48 +1,24 @@
-<h1>Lista de Productos</h1>
-
-<!-- Mensaje de confirmación -->
-<div *ngIf="message" style="color: green; margin-bottom: 10px;">
-  {{ message }}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Mi Tienda</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cart">Mi Lista</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4">
+  <router-outlet></router-outlet>
 </div>
-
-<!-- Formulario para crear -->
-<div>
-  <h2>Añadir Producto</h2>
-  <form (ngSubmit)="addProduct()">
-    <label>
-      Nombre:
-      <input type="text" [(ngModel)]="newProduct.name" name="name" required>
-    </label>
-    <label>
-      Precio:
-      <input type="number" [(ngModel)]="newProduct.price" name="price" required step="0.01">
-    </label>
-    <button type="submit">Añadir</button>
-  </form>
-</div>
-
-<!-- Formulario de edición -->
-<div *ngIf="editProduct">
-  <h2>Editar Producto</h2>
-  <form (ngSubmit)="saveEdit()">
-    <label>
-      Nombre:
-      <input type="text" [(ngModel)]="editProduct.name" name="editName" required>
-    </label>
-    <label>
-      Precio:
-      <input type="number" [(ngModel)]="editProduct.price" name="editPrice" required step="0.01">
-    </label>
-    <button type="submit">Guardar</button>
-    <button type="button" (click)="editProduct = null">Cancelar</button>
-  </form>
-</div>
-
-<!-- Lista de productos -->
-<ul>
-  <li *ngFor="let product of products">
-    {{ product.name }} - {{ product.price }}
-    <button (click)="deleteProduct(product.id)">Eliminar</button>
-    <button (click)="startEdit(product)">Editar</button>
-  </li>
-</ul>

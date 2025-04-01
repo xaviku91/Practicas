@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <h1>Detalles del Producto</h1>
+
+  <div *ngIf="product; else loading" class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ product.name }}</h5>
+      <p class="card-text">Precio: {{ product.price | number:'1.2-2' }}</p>
+      <a routerLink="/products" class="btn btn-secondary">Volver</a>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p>Cargando...</p>
+  </ng-template>
+</div>

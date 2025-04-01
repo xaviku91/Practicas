@@ -1,24 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { ProductService } from './services/product.service';
-
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ProductService } from '../services/product.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
-
-export class AppComponent implements OnInit {
+export class ProductListComponent implements OnInit {
   products: any[] = [];
-  newProduct = { name: '', price: 0 };
   editProduct: any = null;
-  message: string = ''; // Variable para el mensaje
+  message: string = '';
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -27,17 +25,6 @@ export class AppComponent implements OnInit {
   loadProducts(): void {
     this.productService.getProducts().subscribe(data => {
       this.products = data.member || [];
-    });
-  }
-
-  addProduct(): void {
-    this.productService.addProduct(this.newProduct).subscribe({
-      next: () => {
-        this.newProduct = { name: '', price: 0 };
-        this.loadProducts();
-        this.showMessage(`Producto "${this.newProduct.name}" añadido`);
-      },
-      error: (err) => console.error('Error al añadir:', err)
     });
   }
 
@@ -69,6 +56,6 @@ export class AppComponent implements OnInit {
 
   showMessage(msg: string): void {
     this.message = msg;
-    setTimeout(() => this.message = '', 3000); // Desaparece tras 3 segundos
+    setTimeout(() => this.message = '', 3000);
   }
 }
