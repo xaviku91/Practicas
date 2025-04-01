@@ -10,8 +10,14 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  private getHeaders(): HttpHeaders {
+  // Encabezados para POST
+  private getPostHeaders(): HttpHeaders {
     return new HttpHeaders({ 'Content-Type': 'application/ld+json' });
+  }
+
+  // Encabezados para PATCH
+  private getPatchHeaders(): HttpHeaders {
+    return new HttpHeaders({ 'Content-Type': 'application/merge-patch+json' });
   }
 
   getProducts(): Observable<any> {
@@ -19,7 +25,7 @@ export class ProductService {
   }
 
   addProduct(product: any): Observable<any> {
-    return this.http.post(this.apiUrl, product, { headers: this.getHeaders() });
+    return this.http.post(this.apiUrl, product, { headers: this.getPostHeaders() });
   }
 
   deleteProduct(id: number): Observable<any> {
@@ -27,6 +33,6 @@ export class ProductService {
   }
 
   patchProduct(id: number, product: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}`, product, { headers: this.getHeaders() });
+    return this.http.patch(`${this.apiUrl}/${id}`, product, { headers: this.getPatchHeaders() });
   }
 }
