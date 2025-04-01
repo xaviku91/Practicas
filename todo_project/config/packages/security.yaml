@@ -16,20 +16,32 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            jwt: ~
+            # Eliminamos form_login porque usaremos JWT en su lugar
         main:
             lazy: true
             provider: app_user_provider
             form_login:
-                login_path: app_login    # Ruta para mostrar el formulario de login
-                check_path: app_login    # Ruta donde se envía el formulario para autenticar
-                enable_csrf: true        # Protección CSRF para el formulario
+                login_path: app_login    # Mantengo esto por si aún quieres el login basado en formulario para otras partes
+                check_path: app_login
+                enable_csrf: true
             logout:
-                path: app_logout         # Ruta para cerrar sesión
-                target: app_home         # Redirige a la página de inicio tras logout
+                path: app_logout
+                target: app_home
 
     # Control de acceso
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }    # Solo admins acceden a /admin
-        - { path: ^/my-space, roles: ROLE_USER }  # Solo usuarios logeados acceden a /my-space
-        - { path: ^/login, roles: PUBLIC_ACCESS } # Permitir acceso público a /login
-        - { path: ^/, roles: PUBLIC_ACCESS }      # Permitir acceso público a la raíz (home)
+        # Permitir acceso público a las rutas de registro y login de la API
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_USER }
+        # Proteger todas las demás rutas bajo /api para usuarios autenticados
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        # Rutas existentes que puedes mantener si sigues usando el frontend Symfony
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/my-space, roles: ROLE_USER }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: PUBLIC_ACCESS }

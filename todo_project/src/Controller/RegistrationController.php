@@ -3,50 +3,47 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/api/register', name: 'api_register', methods: ['POST'])]
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $entityManager,
-        UserAuthenticatorInterface $authenticator,
-        FormLoginAuthenticator $formLoginAuthenticator
-    ): Response {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $passwordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $authenticator->authenticateUser(
-                $user,
-                $formLoginAuthenticator,
-                $request
-            );
+        // Validar datos básicos
+        if (!isset($data['email']) || !isset($data['plainPassword']) || !isset($data['plainPassword']['first']) || !isset($data['plainPassword']['second'])) {
+            return $this->json(['errors' => 'Faltan campos requeridos (email o plainPassword)'], 400);
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        if ($data['plainPassword']['first'] !== $data['plainPassword']['second']) {
+            return $this->json(['errors' => 'Las contraseñas no coinciden'], 400);
+        }
+
+        $user = new User();
+        $user->setEmail($data['email']);
+        $user->setPassword(
+            $passwordHasher->hashPassword(
+                $user,
+                $data['plainPassword']['first']
+            )
+        );
+
+        try {
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->json(['message' => 'Usuario registrado con éxito'], 201);
+        } catch (\Exception $e) {
+            return $this->json(['errors' => 'Error al registrar el usuario: ' . $e->getMessage()], 400);
+        }
     }
 }
