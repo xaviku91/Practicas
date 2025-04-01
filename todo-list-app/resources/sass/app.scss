@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+
+
+// Custom styles
+body {
+    background-color: #f8fafc;
+}
+.card {
+    margin-top: 20px;
+}

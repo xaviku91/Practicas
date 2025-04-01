@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'blocked',
     ];
 
     /**
@@ -43,6 +45,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'blocked' => 'boolean',
         ];
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }

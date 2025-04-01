@@ -9,3 +9,30 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+:root {
+    --color-bg: white;
+    --color-text: black;
+    --color-navbar: #f8f9fa;
+}
+
+.dark-mode {
+    --color-bg: #121212 !important;
+    --color-text: #ffffff !important;
+    --color-navbar: #1e1e1e !important;
+}
+
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.navbar {
+    background-color: var(--color-navbar) !important;
+}
+
+.dark-mode .navbar {
+    background-color: var(--color-navbar) !important;
+}
+
