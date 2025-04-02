@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h1>Lista de Productos</h1>
+
+  <div *ngIf="message" class="alert alert-success" role="alert">
+    {{ message }}
+  </div>
+
+  <div class="mb-3">
+    <a routerLink="/add-product" class="btn btn-success">Añadir Producto</a>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-2" (click)="startEdit(product)">Editar</button>
+          <a [routerLink]="['/products', product.id]" class="btn btn-info btn-sm me-2">Ver</a>
+          <button class="btn btn-success btn-sm me-2" (click)="addToCart(product)">Añadir al Carrito</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="editProduct" class="mt-4">
+    <h2>Editar Producto</h2>
+    <form (ngSubmit)="saveEdit()" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nombre:</label>
+        <input type="text" class="form-control" [(ngModel)]="editProduct.name" name="editName" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Precio:</label>
+        <input type="number" class="form-control" [(ngModel)]="editProduct.price" name="editPrice" required step="0.01">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-success me-2">Guardar</button>
+        <button type="button" class="btn btn-secondary" (click)="editProduct = null">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

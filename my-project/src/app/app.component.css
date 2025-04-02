@@ -1,0 +1,81 @@
+/* Estilos para el número clickable */
+.clickable-number {
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+.clickable-number:hover {
+  color: #0056b3;
+}
+
+/* Forzar diseño horizontal en la fila */
+.flex-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+}
+
+/* Estilos para las tarjetas de animales */
+.animal-card {
+  width: 150px; /* Ancho fijo para cuadraditos */
+  height: 180px; /* Altura fija para diseño cuadrado */
+  border: 2px solid #dee2e6; /* Borde definido */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: #fff; /* Fondo blanco */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Centrar la tarjeta dentro de la columna */
+.col-6.col-md-3 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.animal-card:hover {
+  transform: translateY(-5px); /* Elevación al pasar el mouse */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+}
+
+.animal-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.animal-card .card-title {
+  font-size: 1.1em;
+  color: #343a40;
+  margin: 0;
+}
+
+.animal-card .card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.animal-card .badge {
+  font-size: 0.75em;
+  padding: 0.3em 0.6em;
+  border-radius: 10px;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .animal-card {
+    width: 120px;
+    height: 150px;
+  }
+
+  .animal-card .card-title {
+    font-size: 1em;
+  }
+
+  .animal-card .badge {
+    font-size: 0.7em;
+  }
+}

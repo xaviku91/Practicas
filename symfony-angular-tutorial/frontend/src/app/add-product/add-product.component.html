@@ -1,0 +1,21 @@
+<div class="container mt-4">
+  <h1>Añadir Producto</h1>
+
+  <div *ngIf="message" class="alert alert-success" role="alert">
+    {{ message }}
+  </div>
+
+  <form (ngSubmit)="addProduct()" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Nombre:</label>
+      <input type="text" class="form-control" [(ngModel)]="newProduct.name" name="name" required>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Precio:</label>
+      <input type="number" class="form-control" [(ngModel)]="newProduct.price" name="price" required step="0.01">
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button type="submit" class="btn btn-success">Añadir</button>
+    </div>
+  </form>
+</div>

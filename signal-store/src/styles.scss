@@ -1,0 +1,32 @@
+//--- Inicializaciones ---
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+// --- PRINCIPALES ---
+:root {
+    color-scheme: dark light;
+}
+
+body {
+    @apply bg-black;
+}
+
+
+// --- HEADER ---
+.logo-glow {
+    transition: all 0.3s ease;
+}
+
+.logo-glow:hover {
+    filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.8));
+}
+
+.text-glow {
+    transition: all 0.3s ease;
+}
+
+.text-glow:hover {
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+}

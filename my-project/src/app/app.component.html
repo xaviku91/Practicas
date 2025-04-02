@@ -1,0 +1,96 @@
+<div class="container my-5">
+  <h1 class="text-center mb-4">{{ title }}</h1>
+
+  <h2 class="mt-4">Añadiendo una variable</h2>
+  <p class="lead">Bienvenido, <b>{{ userName }}</b></p>
+
+  <h2>Probando componentes</h2>
+  <app-header></app-header>
+
+  <h2>Función addClick para aumentar el número</h2>
+  <h4 class="clickable-number" (click)="addOne()">Number: {{ number }}</h4>
+
+  <h2>Modificando el UserName</h2>
+  <div class="input-group mb-3 w-50">
+    <input type="text" class="form-control" [(ngModel)]="userName" (input)="addOne()" placeholder="Escribe tu nombre" />
+  </div>
+
+  <h2>Bloque if - Renderizado dinámico</h2>
+  @if (condition) {
+    <h3 class="text-success">La condición 1 se cumple</h3>
+  } @else if (condition2) {
+    <h3 class="text-warning">La condición 2 se cumple</h3>
+  } @else {
+    <h3 class="text-danger">No se cumple ninguna condición</h3>
+  }
+
+  <h2>Bloque for - Renderizado de listas</h2>
+  <ul class="list-group w-50 mb-4">
+    @for (movie of movies; track movie) {
+      <li class="list-group-item">{{ $index + 1 }} - {{ movie }}</li>
+    }
+  </ul>
+
+  <!-- Lista de Animales -->
+  <h3 class="text-center mb-4">Lista de Animales</h3>
+
+  <!-- Carnívoros -->
+  <h4 class="mb-3 text-danger">Carnívoros</h4>
+  <div class="row g-3 mb-5 flex-row">
+    @for (animal of animals | filterByDiet:'Carnívoro'; track animal.id) {
+      <div class="col-6 col-md-3">
+        <div class="card animal-card shadow-sm">
+          <div class="card-body text-center">
+            <span class="badge bg-dark mb-2">{{ animal.id }}</span>
+            <h5 class="card-title">{{ animal.name }}</h5>
+            <p class="card-text">
+              <span class="badge bg-info">{{ animal.type }}</span>
+              <span class="badge bg-danger mt-1">{{ animal.diet }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Herbívoros -->
+  <h4 class="mb-3 text-success">Herbívoros</h4>
+  <div class="row g-3 mb-5 flex-row">
+    @for (animal of animals | filterByDiet:'Herbívoro'; track animal.id) {
+      <div class="col-6 col-md-3">
+        <div class="card animal-card shadow-sm">
+          <div class="card-body text-center">
+            <span class="badge bg-dark mb-2">{{ animal.id }}</span>
+            <h5 class="card-title">{{ animal.name }}</h5>
+            <p class="card-text">
+              <span class="badge bg-info">{{ animal.type }}</span>
+              <span class="badge bg-success mt-1">{{ animal.diet }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Omnívoros -->
+  <h4 class="mb-3 text-warning">Omnívoros</h4>
+  <div class="row g-3 mb-5 flex-row">
+    @for (animal of animals | filterByDiet:'Omnívoro'; track animal.id) {
+      <div class="col-6 col-md-3">
+        <div class="card animal-card shadow-sm">
+          <div class="card-body text-center">
+            <span class="badge bg-dark mb-2">{{ animal.id }}</span>
+            <h5 class="card-title">{{ animal.name }}</h5>
+            <p class="card-text">
+              <span class="badge bg-info">{{ animal.type }}</span>
+              <span class="badge bg-warning mt-1">{{ animal.diet }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<h2>Input - Comunicacion padre-hijo</h2>
+<app-child [message]="textPadre" [person]="person"></app-child>
