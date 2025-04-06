@@ -1,4 +1,19 @@
 <div class="container mt-5">
   <h1>Productos de la tienda</h1>
-  <p>¡Aquí irán tus productos (En desarrollo)</p>
+  <div class="row" *ngIf="productos.length > 0; else noProductos">
+    <div class="col-md-4 mb-4" *ngFor="let producto of productos">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text">{{ producto.descripcion }}</p>
+          <p class="card-text"><strong>{{ producto.precioFinal | currency:'EUR' }}</strong></p>
+          <button class="btn btn-primary w-100" (click)="agregarAlCarrito(producto.id)">Añadir al Carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noProductos>
+    <p>No hay productos disponibles.</p>
+  </ng-template>
+  <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
 </div>

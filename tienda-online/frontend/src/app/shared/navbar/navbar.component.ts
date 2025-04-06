@@ -18,8 +18,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkAuthStatus();
-    // Escuchar cambios en el estado de autenticación
-    this.authService.isLoggedInChanged.subscribe((loggedIn: boolean) => {
+    this.authService.isLoggedInChanged.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       this.checkAuthStatus();
     });
@@ -31,13 +30,13 @@ export class NavbarComponent implements OnInit {
       const token = this.authService.getToken();
       const decoded = token ? this.authService['jwtHelper'].decodeToken(token) : null;
       this.isAdmin = decoded?.roles?.includes('ROLE_ADMIN') || false;
+    } else {
+      this.isAdmin = false;
     }
   }
 
   logout(): void {
     this.authService.logout();
-    this.isLoggedIn = false;
-    this.isAdmin = false;
     this.router.navigate(['/auth']);
   }
 }

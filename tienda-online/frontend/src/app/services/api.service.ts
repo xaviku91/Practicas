@@ -17,4 +17,12 @@ export class ApiService {
   post<T>(endpoint: string, data: any, options?: any): Observable<T> {
     return this.http.post(`${this.apiUrl}/${endpoint}`, data, options) as Observable<T>;
   }
+
+  put<T>(endpoint: string, data: any, options?: any): Observable<T> {
+    return this.http.put(`${this.apiUrl}/${endpoint}`, data, options) as Observable<T>;
+  }
+
+  delete<T>(endpoint: string, options?: any): Observable<T> {
+    return this.http.delete(`${this.apiUrl}/${endpoint}`, options) as Observable<T>;
+  }
 }
