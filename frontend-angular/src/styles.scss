@@ -1,0 +1,303 @@
+/* ========================================================================= */
+/* VARIABLES GLOBALES */
+/* ========================================================================= */
+:root {
+    --gray-50: #f9fafb;
+    /* Fondo gris claro (bg-gray-50) */
+    --gray-100: #e5e7eb;
+    /* Borde gris claro (border-gray-100) */
+    --gray-200: #d1d5db;
+    /* Borde gris claro (border-gray-200) */
+    --gray-400: #9ca3af;
+    /* Gris medio (gray-400) */
+    --gray-500: #6b7280;
+    /* Gris más oscuro (gray-500) */
+    --gray-700: #374151;
+    /* Gris oscuro (gray-700) */
+    --gray-800: #1f2937;
+    /* Gris muy oscuro (gray-800) */
+    --gray-900: #111827;
+    /* Gris casi negro (gray-900) */
+    --blue-500: #3b82f6;
+    /* Azul claro (blue-500) */
+    --blue-700: #2563eb;
+    /* Azul más oscuro (blue-700) */
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL BODY */
+/* ========================================================================= */
+html body {
+    background-color: #ffffff;
+    /* Fondo blanco por defecto */
+    color: #111827;
+    /* Texto gris oscuro (text-gray-900) */
+}
+
+html.dark body {
+    background-color: var(--gray-900);
+    /* dark:bg-gray-900 */
+    color: #ffffff;
+    /* Texto blanco en modo oscuro */
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL CONTENEDOR PRINCIPAL */
+/* ========================================================================= */
+html .container {
+    background-color: #ffffff;
+    /* Fondo blanco por defecto */
+    color: #111827;
+    /* Texto gris oscuro */
+    padding: 1rem;
+    /* Añadimos algo de padding para que se vea mejor */
+    border-radius: 0.375rem;
+    /* rounded-lg */
+}
+
+html.dark .container {
+    background-color: var(--gray-800);
+    /* dark:bg-gray-800 */
+    color: #ffffff;
+    /* Texto blanco */
+}
+
+/* Estilos para el texto dentro del contenedor (h1, h2, p, etc.) */
+html .container h1,
+html .container h2,
+html .container h3,
+html .container p {
+    color: #111827;
+    /* Texto gris oscuro en modo claro */
+}
+
+html.dark .container h1,
+html.dark .container h2,
+html.dark .container h3,
+html.dark .container p {
+    color: #ffffff;
+    /* Texto blanco en modo oscuro */
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL MENÚ (NAVBAR) */
+/* ========================================================================= */
+html .navbar.navbar-expand-lg {
+    background-color: #ffffff;
+    /* bg-white */
+    border-bottom: 1px solid var(--gray-200);
+    /* border-gray-200 */
+}
+
+html.dark .navbar.navbar-expand-lg {
+    background-color: var(--gray-900);
+    /* dark:bg-gray-900 */
+    border-bottom: 1px solid var(--gray-700);
+    /* dark:border-gray-700 */
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL LOGO Y NOMBRE DE LA APP (NAVBAR-BRAND) */
+/* ========================================================================= */
+html .navbar-brand {
+    color: var(--gray-900);
+    /* text-gray-900 */
+}
+
+html.dark .navbar-brand {
+    color: #ffffff;
+    /* dark:text-white */
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL BOTÓN DE COLAPSO (NAVBAR-TOGGLER) */
+/* ========================================================================= */
+html .navbar-toggler {
+    color: var(--gray-500);
+    /* text-gray-500 */
+    border: none;
+
+    &:hover {
+        background-color: var(--gray-100);
+        /* hover:bg-gray-100 */
+    }
+}
+
+html.dark .navbar-toggler {
+    color: var(--gray-400);
+
+    /* dark:text-gray-400 */
+    &:hover {
+        background-color: var(--gray-700);
+        /* dark:hover:bg-gray-700 */
+    }
+}
+
+/* ========================================================================= */
+/* ESTILOS DE LA LISTA DE ENLACES (NAVBAR-NAV) */
+/* ========================================================================= */
+html .navbar-nav {
+    background-color: var(--gray-50);
+    /* bg-gray-50 */
+    padding: 1rem;
+    /* p-4 */
+    margin-top: 1rem;
+    /* mt-4 */
+    border: 1px solid var(--gray-100);
+    /* border border-gray-100 */
+    border-radius: 0.375rem;
+    /* rounded-lg */
+
+    @media (min-width: 768px) {
+        background-color: transparent;
+        /* md:bg-transparent */
+        padding: 0;
+        /* md:p-0 */
+        margin-top: 0;
+        /* md:mt-0 */
+        border: none;
+        /* md:border-0 */
+    }
+}
+
+html.dark .navbar-nav {
+    background-color: var(--gray-800);
+    /* dark:bg-gray-800 */
+    border-color: var(--gray-700);
+    /* dark:border-gray-700 */
+
+    @media (min-width: 768px) {
+        background-color: transparent;
+        /* md:dark:bg-gray-900 */
+    }
+}
+
+/* ========================================================================= */
+/* ESTILOS DE LOS ITEMS DEL MENÚ (NAV-ITEM) */
+/* ========================================================================= */
+html .nav-item {
+    @media (min-width: 768px) {
+        margin-right: 2rem;
+        /* Equivalente a space-x-8 */
+    }
+}
+
+/* ========================================================================= */
+/* ESTILOS DE LOS ENLACES DEL MENÚ (NAV-LINK) */
+/* ========================================================================= */
+html .nav-link {
+    color: var(--gray-900);
+
+
+    &:hover {
+        background-color: var(--gray-100);
+        /* hover:bg-gray-100 */
+    }
+
+    @media (min-width: 768px) {
+        background-color: transparent;
+
+        &:hover {
+            color: var(--blue-700);
+            /* md:hover:text-blue-700 */
+        }
+    }
+
+    &.active {
+        background-color: var(--blue-700);
+        color: #ffffff;
+        border-radius: 0.25rem;
+
+        @media (min-width: 768px) {
+            background-color: transparent;
+            color: var(--blue-700);
+        }
+    }
+}
+
+html.dark .nav-link{
+  color: #ffffff;
+
+  &:hover {
+      background-color: var(--gray-700);
+      color: #ffffff;
+  }
+
+  &.active {
+      background-color: var(--blue-700);
+      color: #ffffff;
+  }
+
+  @media (min-width: 768px) {
+      background-color: transparent;
+
+      &:hover {
+          background-color: transparent;
+          color: var(--blue-500); /* Azul al pasar el mouse en pantallas grandes */
+      }
+
+      &.active {
+          background-color: transparent;
+          color: var(--blue-500);
+      }
+  }
+}
+
+
+/* ========================================================================= */
+/* ESTILOS DE LOS BOTONES DE AUTENTICACIÓN (LOGIN/LOGOUT) */
+/* ========================================================================= */
+html.dark .btn-outline-primary {
+    border-color: var(--blue-500);
+    /* blue-500 */
+    color: var(--blue-500);
+}
+
+html.dark .btn-outline-danger {
+    border-color: #ef4444;
+    /* red-500 */
+    color: #ef4444;
+}
+
+/* ========================================================================= */
+/* ESTILOS DEL BOTÓN DE MODO OSCURO */
+/* ========================================================================= */
+html .btn-outline-secondary.btn-sm.rounded-circle {
+    width: 2.5rem;
+    /* Tamaño pequeño y circular */
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    /* Eliminar padding para centrar el ícono */
+    font-size: 1.2rem;
+    /* Tamaño del ícono */
+    border-color: var(--gray-500);
+    /* gray-500 */
+    color: var(--gray-500);
+
+    &:hover {
+        background-color: var(--gray-100);
+        /* hover:bg-gray-100 */
+        border-color: var(--gray-500);
+        color: var(--gray-500);
+    }
+}
+
+html.dark .btn-outline-secondary.btn-sm.rounded-circle {
+    border-color: var(--gray-400);
+    /* gray-400 */
+    color: var(--gray-400);
+
+    &:hover {
+        background-color: var(--gray-700);
+        /* dark:hover:bg-gray-700 */
+        border-color: var(--gray-400);
+        color: var(--gray-400);
+    }
+}
+
+html.dark .nav-link {
+  color: #ffffff !important;
+}

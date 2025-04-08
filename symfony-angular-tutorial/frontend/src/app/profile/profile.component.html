@@ -1,0 +1,11 @@
+<div class="container mt-4">
+    <h1>Mi Perfil</h1>
+    <div *ngIf="user" class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.name }}</h5>
+            <p class="card-text">Email: {{ user.email }}</p>
+            <p class="card-text">Rol: {{ user.roles.join(', ') }}</p>
+            <p class="card-text" *ngIf="user.isBlocked" style="color: red;">Cuenta bloqueada</p>
+        </div>
+    </div>
+</div>
